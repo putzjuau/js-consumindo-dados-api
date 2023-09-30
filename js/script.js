@@ -1,15 +1,4 @@
-console.log("Mandando oi pro amigo");
 
+// Lidando com Fetch API
 
-function mandaMensagem() {
-    //esses consoles só serão chamados quando a função for chamada 
-
-    //? Assim, se torna um código sincrono
-    console.log("Tudo bem? ")
-    console.log("Vou te mandar uma solicitação")
-    console.log("sOLICITAÇÃO RECEBIDA")
-}
-//quando adicionamos a função dentro do setTimeOut
-setTimeout(mandaMensagem(), 5000);
-
-console.log("Tchau filha da mãe")
+var consultaCEP = fetch('https://viacep.com.br/ws/01001000/json/'); //Fetch é um parametro assincrono, que tem como parametro a URL da API 
