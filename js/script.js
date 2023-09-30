@@ -1,15 +1,17 @@
 
-// Lidando com Fetch API
-//?Fetch é um parametro assincrono, que tem como parametro a URL da API, em si, é uma PROMISSE
-var consultaCEP = fetch('https://viacep.com.br/ws/01000250/json/')
-    .then(resposta => resposta.json()) //ent transforme resposta em um arquivo json, POIS, os dados vem em formato de bytes e por isso não conseguiriamos ler eels
-    .then(r => {
-        if (r.erro) { //Aqui estamos tratando o erro. Pegando ele 
-            throw Error('Esse CEP não existe!') //?estamos declarando o erro que vai ser, para assim, o catch a seguir pegar esse erro
-        } else 
-            console.log(r)
-    })
-    //estamos pegando o valor de forma legivel                                                                                                 
-    //vamos tratar erros dessa requisição da API
-.catch(erro => console.log(erro))
-.finally(mensagem => console.log('Processamento concluido')); 
+/* No exemplo anterior, usamos then dentro de then e por ai vai
+    Porem isso não é aceitavel, pois se torna um "callback hell", inferno de callback*/
+async function buscaEndereco(cep) { // deixando a assincronicidade com o termo "async" 
+    try {
+        var consultaCEP = await fetch(`https://viacep.com.br/ws/${cep}/json/`); // só podemos usar a palavra await se tiver dentro de uma função async
+                                                                //passando o cep por parametro e passando pro link    
+        var consultaCEPConvertida = await consultaCEP.json(); //pegando e transformando para json
+        if (consultaCEPConvertida.erro) { // como a API torna um verdadeiro caso surja um erro espefico, vamos fazer um if
+            throw Error('CEP NÃO EXISTENTE');
+        }
+        return consultaCEPConvertida;
+    } catch (erro) {//tratamento de erros com try(tentar) catch(pegar) 
+        console.log(erro)
+    }
+
+}
